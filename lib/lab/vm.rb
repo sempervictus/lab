@@ -17,7 +17,8 @@ class Vm
   attr_accessor :type
   attr_accessor :os
   attr_accessor :arch
-  attr_accessor :tags
+  attr_accessor :machine_tags
+  attr_accessor :snapshots
 
   ## Initialize takes a vm configuration hash of the form
   ##  - vmid (unique id)
@@ -34,7 +35,9 @@ class Vm
   ##    os (currently linux / windows / solaris / aix) - may be used in modifiers
   ##    arch (currently 32 / 64)
   ##    modifiers - can be anything in the modifiers directory
-  ##    tags - list of strings associated with this vm
+  ##    machine_tags - list of strings associated with the machine (not individual snapshots)
+  ##    snapshots - list of snapshots
+
   
   def initialize(config = {})  
 
@@ -119,10 +122,33 @@ class Vm
     end
     
     #
-    # Grab a tags array
+    # Grab a list of snapshots & tags associated with this machine
     #
-    @tags = config['tags']
-    
+    #   machine_tags:
+    #   - ie6
+    #   - ie7
+    #   - ie8
+    #   - firefox
+    #   snapshots:
+    #   - ie6:
+    #    - snapshot_tags:
+    #     - ie6
+    #   - ie7:
+    #    - snapshot_tags:
+    #     - ie7
+    #     - ie8:
+    #    - snapshot_tags:
+    #     - ie8
+    #   - bap:
+    #    - snapshot_tags:
+    #     - flash_10.2.153.1
+    #     - reader_9.3.3
+    #     - java_6u23
+    #     - quicktime_player_7.6.9
+    #
+    @machine_tags = config['machine_tags']
+    @snapshots = config['snapshots']
+
   end
   
   def running?

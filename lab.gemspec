@@ -19,18 +19,22 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
+    ##
+    ## Dependencies
+    ##
 
-    # ??
+    # necessary??
     s.add_runtime_dependency "nokogiri"
 
-    # Multiple things - fallback execute / copy
+    # Fallback execute / copy in the drivers
     s.add_runtime_dependency "net-ssh"
     s.add_runtime_dependency "net-scp"
 
-    # Vmware vsphere driver
+    # Powers the vsphere driver
     s.add_runtime_dependency "rbvmomi"
+
+    # Powers the fog driver
+    s.add_runtime_dependency "fog"
 
     # util/console.rb
     s.add_runtime_dependency "pry"
