@@ -35,9 +35,18 @@ PLATFORM SUPPORT:
 You will need to have this code running on a linux box, Currently this has only been run / tested on Ubuntu 9.04 -> 10.04, though it should run on any linux with an ssh client and the dependencies below. Remote VM Hosts will need to be linux as well, though other platforms may work (untested). If you're interested in porting it to windows, please contact me (jcran). 
 
 Platform Dependencies:
-  - whatever vm software is necessary for the driver you're using (see SUPPORTED VM TECHNOLOGIES above)
-  - net/scp - the gem (net-scp). Required to copy files to/from the devices in the case that tools are not installed. Not necessary if tools are installed. 
-  - fog - require to use the amazon_ec2 driver
+
+Currently the gem must be run on a linux host with access to the vm
+tech you're automating. For instance, if you want to automate a
+workstation VM, you'll need to run the lab code on the Linux VMWare
+Workstation Host. You can work around this by using the
+remote_workstation driver, which shells (using ssh) into the remote host
+and runs the commands. Note that both systems must be running linux. 
+
+CONFIGURING:
+============
+
+Take a look at the example configuration files in config/.
 
 STANDALONE API:
 ===============
