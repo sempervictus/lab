@@ -1,5 +1,8 @@
 require 'vm_driver'
-require 'nokogiri'
+require 'rexml/document' 
+
+include REXML 
+
 
 ##
 ## $Id$
@@ -38,16 +41,16 @@ module Drivers
 
     def register_and_return_vmid
       
-      xml = Nokogiri::XML(File.new(@location))
-      vmid = xml.root.xpath("//Machine[@name]")
+      vmid = nil
+      doc = Document.new(File.open(@location).read)
+      doc.elements.each("//Machine"){|x| vmid =  x.attributes['name'] }
       
-      ## only register if we don't already know the vmid
-      if !::Lab::Controllers::VirtualBoxController::config_list.include? vmid
-        system_command("VBoxManage registervm \"#{@location}\"")
-      end
+      #
+      # only register if we don't already know the vmid
+      #
+        system_command("VBoxManage registervm \"#{@location}\"") unless ::Lab::Controllers::VirtualBoxController::config_list.include? vmid
       
       return vmid
-      
     end
 
     def unregister

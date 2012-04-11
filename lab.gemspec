@@ -23,9 +23,6 @@ Gem::Specification.new do |s|
     ## Dependencies
     ##
 
-    # necessary??
-    s.add_runtime_dependency "nokogiri"
-
     # Fallback execute / copy in the drivers
     s.add_runtime_dependency "net-ssh"
     s.add_runtime_dependency "net-scp"
