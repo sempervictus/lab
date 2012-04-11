@@ -12,16 +12,20 @@ SUPPORTED VM TECHNOLOGIES:
 NOTE: The lab libraries have only been tested with linux as a host, porting to windows is not planned at this time.
 
 Implemented:
- - workstation (Tested against 7.x)
- - remote_workstation (Tested against 7.x)
- - virtualbox (Tested against 4.x)
- - remote_esx (VMware ESX Host Agent 4.1.0 build-348481)
+
+- workstation (Tested against 7.x)
+- remote_workstation (Tested against 7.x)
+- virtualbox (Tested against 4.x)
+- remote_esx (VMware ESX Host Agent 4.1.0 build-348481)
 
 Partially Implemented:
- - amazon_ec2 (via fog gem)
- - dynagen
+
+- amazon_ec2 (via fog gem)
+- dynagen
+- vsphere
 
 Need Implementation:
+
  - qemu
  - qemudo
  - others?
@@ -48,11 +52,10 @@ You must first create a yaml file which describes your vm. See data/lab/test_tar
   require 'vm_controller'
   vm_controller = ::Lab::Controllers::VmController.new(YAML.load_file(lab_def)) 
   vm_controller['vm1'].start
-  vm_controller['vm1'].snapshot("clean") 
+  vm_controller['vm1'].create_snapshot("clean") 
   vm_controller['vm1'].run_command("rm /etc/resolv.conf")
   vm_controller['vm1'].open_uri("http://autopwn:8080")
-  vm_controller['vm1'].revert("clean")
-  vm_controller['vm1'].revert("clean")
+  vm_controller['vm1'].revert_snapshot("clean")
 </pre>
 METASPLOIT MSFCONSOLE LAB PLUGIN:
 =================================
