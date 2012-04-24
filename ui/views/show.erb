@@ -1,0 +1,28 @@
+<h1> LabMon </h1>
+
+<ul>
+<li> Hostname: <%= @vm.hostname %> </ll>
+<li> Description: <%= @vm.description %> </li>
+<li> Notes: <%= @vm.notes %> </li>
+<li> Tags: <%= @vm.tags.join(", ") %></li>
+</ul>
+
+<table>
+<tr>
+<td>
+<form name=start_vm action="/start/<%=@vm.hostname%>">
+  <input type=submit value="Start">
+</form>
+</td>
+<td>
+<form name=stop_vm action="/stop/<%=@vm.hostname%>">
+  <input type=submit value="Stop">
+</form>
+</td>
+<td>
+<form name=revert_snapshot action="/revert_snapshot/<%=@vm.hostname%>/clean">
+  <input type=submit value="Revert to Clean">
+</form>
+<td>
+</tr>
+</table

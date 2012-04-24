@@ -20,7 +20,7 @@ class RemoteEsxiDriver < VmDriver
     
     @user = filter_command(config['user'])
     @host = filter_command(config['host'])
-    @port = config['port']    
+    @port = config['port']
   end
 
   def start
@@ -47,6 +47,10 @@ class RemoteEsxiDriver < VmDriver
     remote_system_command("vim-cmd vmsvc/power.reset #{@vmid}")
   end
 
+  def query_snapshots
+    get_snapshots
+  end
+  
   def create_snapshot(snapshot)
     snapshot = filter_input(snapshot)
     

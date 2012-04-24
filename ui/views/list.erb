@@ -1,0 +1,7 @@
+<h1> LabMon </h1>
+
+<ul>
+  <% @controller.each do |vm| %>
+  <li> <a href=show/<%=vm.hostname%>><%=vm.hostname%></a> - <%= vm.description %> </li>
+  <% end %>
+</ul>

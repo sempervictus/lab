@@ -1,18 +1,48 @@
 PATH
   remote: .
   specs:
-    lab (0.1.0)
+    lab (0.2.5)
+      fog
       net-scp
       net-ssh
-      nokogiri
+      pry
+      rbvmomi
 
 GEM
   remote: http://rubygems.org/
   specs:
+    builder (3.0.0)
+    coderay (1.0.6)
+    excon (0.13.4)
+    fog (1.3.1)
+      builder
+      excon (~> 0.13.0)
+      formatador (~> 0.2.0)
+      mime-types
+      multi_json (~> 1.0)
+      net-scp (~> 1.0.4)
+      net-ssh (>= 2.1.3)
+      nokogiri (~> 1.5.0)
+      ruby-hmac
+    formatador (0.2.1)
+    method_source (0.7.1)
+    mime-types (1.18)
+    multi_json (1.2.0)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-ssh (2.3.0)
-    nokogiri (1.5.0)
+    nokogiri (1.5.2)
+    pry (0.9.8.4)
+      coderay (~> 1.0.5)
+      method_source (~> 0.7.1)
+      slop (>= 2.4.4, < 3)
+    rbvmomi (1.5.1)
+      builder
+      nokogiri (>= 1.4.1)
+      trollop
+    ruby-hmac (0.4.0)
+    slop (2.4.4)
+    trollop (1.16.2)
 
 PLATFORMS
   ruby

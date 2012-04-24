@@ -15,6 +15,7 @@ class Vm
   attr_accessor :credentials
   attr_accessor :tools
   attr_accessor :type
+  attr_accessor :notes
   attr_accessor :os
   attr_accessor :arch
   attr_accessor :machine_tags
@@ -58,6 +59,7 @@ class Vm
 
     @location = filter_input(config['location'])
     @description = config['description']
+    @notes = config['notes']
     @tools = config['tools']
     @os = config['os']
     @arch = config['arch']
@@ -181,6 +183,10 @@ class Vm
   
   def resume
     @driver.resume
+  end
+  
+  def query_snapshots
+    @driver.query_snapshots
   end
 
   def create_snapshot(snapshot)
