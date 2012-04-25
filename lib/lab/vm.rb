@@ -38,7 +38,6 @@ class Vm
   ##    modifiers - can be anything in the modifiers directory
   ##    machine_tags - list of strings associated with the machine (not individual snapshots)
   ##    snapshots - list of snapshots
-
   
   def initialize(config = {})  
 

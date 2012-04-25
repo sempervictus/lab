@@ -5,7 +5,9 @@ before do
   ## Basic blacklisting of metacharacters
   redirect to "/exception" if request.path_info =~ /\;|\|/
   @controller = Lab::Controllers::VmController.new
-  @controller.from_file("/home/jcran/qa/lib/lab_pro/config/metasploit_lab_config.yml")
+  if File.exist? "config.txt"
+    @controller.from_file(File.open("config.txt").read.strip)
+  end
 end
  
 get '/' do

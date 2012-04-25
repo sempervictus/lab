@@ -4,6 +4,7 @@
 <li> Hostname: <%= @vm.hostname %> </ll>
 <li> Description: <%= @vm.description %> </li>
 <li> Notes: <%= @vm.notes %> </li>
+<li> Running: <%= @vm.running? %> </li>
 <li> Tags: <%= @vm.machine_tags.join(", ") unless @vm.snapshots.nil? %></li>
 <li> Snapshots: <%= @vm.snapshots.join(", ") unless @vm.snapshots.nil? %></li>
 </ul>
@@ -21,7 +22,8 @@
 </form>
 </td>
 <td>
-<form name=revert_snapshot action="/revert_snapshot/<%=@vm.hostname%>/clean">
+<form name=revert_snapshot action="/revert_snapshot/<%=@vm.hostname%>">
+  <input type=text value="clean">
   <input type=submit value="Revert to Clean">
 </form>
 <td>
