@@ -22,7 +22,7 @@ get '/list' do
   erb :list
 end
 
-get '/list' do
+get '/show' do
   redirect to '/list'
 end
 
@@ -47,7 +47,7 @@ get '/stop/:hostname' do
   redirect to "/show/#{hostname}"
 end
 
-get '/revert_snapshot/:hostname/:snapshot' do
+get '/revert_snapshot/:hostname' do
   hostname = params[:hostname]
   snapshot = params[:snapshot] || "clean"
   @vm = @controller[hostname]
