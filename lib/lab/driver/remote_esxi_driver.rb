@@ -75,8 +75,8 @@ class RemoteEsxiDriver < VmDriver
       end
     end
   
-    # If we got here, the snapshot didn't exist
-    raise "Invalid Snapshot Name"
+    # If we got here, we couldn't make it happen
+    raise "Unable to revert"
   end
 
   def delete_snapshot(snapshot, remove_children=false)

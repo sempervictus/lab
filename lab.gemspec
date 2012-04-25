@@ -36,4 +36,9 @@ Gem::Specification.new do |s|
     # util/console.rb
     s.add_runtime_dependency "pry"
 
+    ##
+    ## UI Dependencies
+    ##
+    s.add_runtime_dependency "sinatra"
+
 end

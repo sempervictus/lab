@@ -4,7 +4,8 @@
 <li> Hostname: <%= @vm.hostname %> </ll>
 <li> Description: <%= @vm.description %> </li>
 <li> Notes: <%= @vm.notes %> </li>
-<li> Tags: <%= @vm.tags.join(", ") %></li>
+<li> Tags: <%= @vm.machine_tags.join(", ") unless @vm.snapshots.nil? %></li>
+<li> Snapshots: <%= @vm.snapshots.join(", ") unless @vm.snapshots.nil? %></li>
 </ul>
 
 <table>
