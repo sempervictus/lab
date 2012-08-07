@@ -66,6 +66,7 @@ You must first create a yaml file which describes your vm. See data/lab/test_tar
   vm_controller['vm1'].open_uri("http://autopwn:8080")
   vm_controller['vm1'].revert_snapshot("clean")
 </pre>
+
 METASPLOIT MSFCONSOLE LAB PLUGIN:
 =================================
 
@@ -90,3 +91,10 @@ Here's some example usage for the lab plugin.
   msf> lab_suspend  vm1                   // Suspend a vm
   msf> lab_revert all snapshot_1          // Revert all vms back to 'snapshot_1'
 </pre>
+
+CREDITS:
+========
+
+The lab gem is a collaborative effort, with lots of testing from the Metasploit community, and special thanks to: 
+ - Joshua "kernelsmith" Smith - ESXi Support, Tons of fixes & testing
+ - Hauke Mehrtens - VirtualBox Support
