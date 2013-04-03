@@ -5,7 +5,7 @@ module Controllers
 module XenApiController
 
   # Get vm UUIDs and pull info hashes
-  def self.vm_list_all(user,host,pass,running_only=false)
+  def self.get_vms(user,host,pass,running_only=false)
     s = self.get_xapi_session(user,host,pass)
     vms = []
     s.VM.get_all.map do |vref|
@@ -18,7 +18,7 @@ module XenApiController
   end
 
   # Get SR UUIDs and pull info hashes
-  def self.sr_list_all(user,host,pass)
+  def self.get_srs(user,host,pass)
     s = self.get_xapi_session(user,host,pass)
     return s.SR.get_all.map {|srid| s.SR.get_record(srid)}
   end
@@ -26,7 +26,7 @@ module XenApiController
   # Compat method wrappers
 
   def self.running_list(user,host,pass)
-    self.vm_list_all(user,host,pass,true)
+    self.get_vms(user,host,pass,true)
   end
 
   def self.config_list
@@ -83,14 +83,14 @@ class ::XenAPI::Session
         self.pool.get_all
 
         self
-      rescue Exception => exc 
+      rescue Exception => exc
         error = XenAPI::ErrorFactory.wrap(exc)
         if @block
           # returns a new session
           @block.call(error)
         else
           raise error
-        end 
-      end 
+        end
+      end
     end
 end

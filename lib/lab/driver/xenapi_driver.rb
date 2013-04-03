@@ -31,7 +31,8 @@ class XenApiDriver < VmDriver
     @pass = config['pass']
     @port = filter_input(config['port']) || nil
 
-		@vm = ensure_xen_session.VM.get_record(@vmid) or fail "VM not found"
+    ensure_xen_session
+		# @vm = ensure_xen_session.VM.get_record(@vmid) or fail "VM not found"
 	end
 
 	def start
@@ -116,7 +117,8 @@ class XenApiDriver < VmDriver
 	end
 
 	def running?
-		raise "Unimplemented"
+    ensure_xen_session
+    @vm['power_state'] == 'Running'
 	end
 
   def xen_info_hash
@@ -135,6 +137,7 @@ class XenApiDriver < VmDriver
         @pass,
         @port
       )
+      @vm = @xen_session.VM.get_record(@vmid) or fail "VM not found"
 		end
 		@xen_session
 	end

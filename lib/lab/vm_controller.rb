@@ -174,89 +174,114 @@ module Controllers
     # a config or just managing the currently running vms
     #
     def build_from_running(driver_type=nil, user=nil, host=nil, clear=false, pass=nil)
+      build_from_available(driver_type, user, host, clear, pass, true)
+    end
 
+    def build_from_available(driver_type=nil, user=nil, host=nil, clear=false, pass=nil, running_only = false)
+
+      query_method = running_only ? :running_list : :get_vms
+
+      case driver_type.intern
+      when :workstation
+        vm_list = ::Lab::Controllers::WorkstationController.send(query_method)
+      when :remote_workstation
+        vm_list = ::Lab::Controllers::RemoteWorkstationController.send(query_method,user, host)
+      when :virtualbox
+        vm_list = ::Lab::Controllers::VirtualBoxController.send(query_method)
+      when :fog
+        raise "Unsupported"
+      when :dynagen
+        raise "Unsupported"
+      when :remote_esxi
+        vm_list = ::Lab::Controllers::RemoteEsxiController.send(query_method,user,host)
+      when :vsphere
+        vm_list = ::Lab::Controllers::VsphereController.send(query_method,user,host,pass)
+      when :xenapi
+        vm_list = ::Lab::Controllers::XenApiController.send(query_method,user,host,pass)
+      else
+        raise TypeError, "Unsupported VM Type"
+      end
+      parse_vms(driver_type,user,host,pass,vm_list,clear)
+
+    end
+
+    def parse_vms(driver_type,user,host,pass,vm_list,clear=false)
+      # Only clear once we're processing a VM list
       if clear
         @vms = []
       end
 
       case driver_type.intern
-        when :workstation
-          vm_list = ::Lab::Controllers::WorkstationController::running_list
-          vm_list.each do |item|
-            # Name the VM
-            index = @vms.count + 1
-            # Add it to the vm list
-            @vms << Vm.new({
-              'vmid' => "vm_#{index}",
-              'driver' => driver_type,
-              'location' => item
-              })
-          end
-        when :remote_workstation
-          vm_list = ::Lab::Controllers::RemoteWorkstationController::running_list(user, host)
-          vm_list.each do |item|
-            # Name the VM
-            index = @vms.count + 1
-            # Add it to the VM list
-            @vms << Vm.new({
-              'vmid' => "vm_#{index}",
-              'driver' => driver_type,
-              'location' => item,
-              'user' => user,
-              'host' => host
-              })
-          end
-        when :virtualbox
-          vm_list = ::Lab::Controllers::VirtualBoxController::running_list
-          vm_list.each do |item|
-            # Add it to the vm list
-            @vms << Vm.new( {
-              'vmid' => "#{item}",
-              'driver' => driver_type,
-              'location' => nil
-              })
-          end
-        when :fog
-          raise "Unsupported"
-        when :dynagen
-          raise "Unsupported"
-        when :remote_esxi
-          vm_list = ::Lab::Controllers::RemoteEsxiController::running_list(user,host)
-          vm_list.each do |item|
-            @vms << Vm.new( {
-              'vmid' => "#{item[:id]}",
-              'name' => "#{item[:name]}",
-              'driver' => driver_type,
-              'user' => user,
-              'host' => host
-              })
-          end
-        when :vsphere
-          vm_list = ::Lab::Controllers::VsphereController::running_list(user,host,pass)
-          vm_list.each do |item|
-            @vms << Vm.new( {
-              'vmid' => "#{item[:id]}",
-              'name' => "#{item[:name]}",
-              'driver' => driver_type,
-              'user' => user,
-              'host' => host,
-              'pass' => pass
-              })
-          end
-        when :xenapi
-          vm_list = ::Lab::Controllers::XenApiController::running_list(user,host,pass)
-          vm_list.each do |item|
-            @vms << Vm.new( item.merge({
-              'driver' => driver_type,
-              'user' => user,
-              'host' => host,
-              'pass' => pass
-              }))
-          end
-        else
-          raise TypeError, "Unsupported VM Type"
+      when :workstation
+        vm_list.each do |item|
+          # Name the VM
+          index = @vms.count + 1
+          # Add it to the vm list
+          @vms << Vm.new({
+            'vmid' => "vm_#{index}",
+            'driver' => driver_type,
+            'location' => item
+            })
         end
-
+      when :remote_workstation
+        vm_list.each do |item|
+          # Name the VM
+          index = @vms.count + 1
+          # Add it to the VM list
+          @vms << Vm.new({
+            'vmid' => "vm_#{index}",
+            'driver' => driver_type,
+            'location' => item,
+            'user' => user,
+            'host' => host
+            })
+        end
+      when :virtualbox
+        vm_list.each do |item|
+          # Add it to the vm list
+          @vms << Vm.new( {
+            'vmid' => "#{item}",
+            'driver' => driver_type,
+            'location' => nil
+            })
+        end
+      when :fog
+        raise "Unsupported"
+      when :dynagen
+        raise "Unsupported"
+      when :remote_esxi
+        vm_list.each do |item|
+          @vms << Vm.new( {
+            'vmid' => "#{item[:id]}",
+            'name' => "#{item[:name]}",
+            'driver' => driver_type,
+            'user' => user,
+            'host' => host
+            })
+        end
+      when :vsphere
+        vm_list.each do |item|
+          @vms << Vm.new( {
+            'vmid' => "#{item[:id]}",
+            'name' => "#{item[:name]}",
+            'driver' => driver_type,
+            'user' => user,
+            'host' => host,
+            'pass' => pass
+            })
+        end
+      when :xenapi
+        vm_list.each do |item|
+          @vms << Vm.new( item.merge({
+            'driver' => driver_type,
+            'user' => user,
+            'host' => host,
+            'pass' => pass
+            }))
+        end
+      else
+        raise TypeError, "Unsupported VM Type"
+      end
     end
 
     #
