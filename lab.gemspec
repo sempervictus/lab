@@ -33,6 +33,9 @@ Gem::Specification.new do |s|
     # Powers the fog driver
     s.add_runtime_dependency "fog"
 
+    # Powers the xenapi driver
+    s.add_runtime_dependency "xenapi-ruby"
+
     # util/console.rb
     s.add_runtime_dependency "pry"
 
